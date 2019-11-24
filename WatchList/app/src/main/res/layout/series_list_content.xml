@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
     <data>
+        <import type="android.content.Context"/>
         <variable
             name="serie"
             type="com.example.watchlist.model.SavedSerie" />
@@ -10,7 +11,54 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="66dp">
+        android:layout_height="265dp">
+
+        <ImageView
+            android:id="@+id/serie_banner"
+            android:layout_width="170dp"
+            android:layout_height="250dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:serie_banner="@{serie}"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/serie_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginBottom="8dp"
+            android:textColor="@android:color/black"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/serie_banner"
+            app:layout_constraintTop_toTopOf="@+id/serie_banner"
+            app:layout_constraintVertical_bias="0.111"
+            app:serie_name="@{serie}"
+            android:ellipsize="end"
+            android:singleLine="true"
+            tools:text="@tools:sample/full_names" />
+
+        <TextView
+            android:id="@+id/serie_overview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            app:layout_constraintStart_toEndOf="@+id/serie_banner"
+            app:layout_constraintTop_toBottomOf="@+id/serie_name"
+            app:layout_constraintVertical_bias="0.111"
+            android:textColor="#242323"
+            android:textSize="14sp"
+            app:serie_overview="@{serie}"
+            android:ellipsize="end"
+            android:singleLine="false"
+            android:layout_weight="1"
+            tools:text="@tools:sample/lorem[4:10]" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -5,18 +5,19 @@ import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.squareup.moshi.Json
 
 
 @Entity(tableName = "Savedserie_table")
 data class SavedSerie(
     @PrimaryKey @ColumnInfo(name = "savedSerieId") val savedSerieId: String = "",
-    @ColumnInfo(name = "name") val name: String = "",
+    @field:Json(name="seriesName") @ColumnInfo(name = "name") val name: String = "",
     @ColumnInfo(name = "overview") val overview: String = "",
     @ColumnInfo(name = "slug") val slug: String = "",
     @ColumnInfo(name = "status") val status: String = "",
-    @ColumnInfo(name = "banner_location") val banner_location: String = "",
+    @field:Json(name="banner") @ColumnInfo(name = "banner_location") val banner_location: String = "",
     @ColumnInfo(name = "network") val network: String = "",
-    @ColumnInfo(name = "firstAired") val dateFirstAired: String = ""
+    @field:Json(name="dateFirstAired") @ColumnInfo(name = "firstAired") val dateFirstAired: String = ""
 ) : Parcelable {
     constructor(parcel: Parcel): this (
         parcel.readString(),
