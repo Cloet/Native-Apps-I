@@ -27,6 +27,12 @@ class DatabaseModule(private val application: Application) {
 
     @Provides
     @Singleton
+    internal fun provideSavedSeriesDatabase(context: Context): SavedSeriesDatabase {
+        return SavedSeriesDatabase.getDatabase(context)
+    }
+
+    @Provides
+    @Singleton
     fun provideApplicationContext(): Context {
         return application
     }

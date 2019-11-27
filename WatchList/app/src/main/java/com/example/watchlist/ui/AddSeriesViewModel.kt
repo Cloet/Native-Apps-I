@@ -1,12 +1,16 @@
 package com.example.watchlist.ui
 
 import android.app.Application
+import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.watchlist.App
-import com.example.watchlist.model.*
+import com.example.watchlist.model.LoginData
+import com.example.watchlist.model.Preferences
+import com.example.watchlist.model.SavedSerie
+import com.example.watchlist.model.SerieResource
 import com.example.watchlist.network.TVDBApi
 import com.example.watchlist.utils.API_KEY
 import com.example.watchlist.utils.USER_KEY
@@ -16,47 +20,47 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
-
-    private val foundSeriesObject = MutableLiveData<List<SavedSerie>>()
+class AddSeriesViewModel: ViewModel() {
 
     @Inject
     lateinit var tvDbApi: TVDBApi
 
-    private var subscription: Disposable
+    lateinit var subscription: Disposable
 
-    val prefs : Preferences
+    var foundSeriesObject = MutableLiveData<List<SavedSerie>>()
+
 
     init {
         App.component.inject(this)
+    }
 
-        prefs = Preferences(App.application)
+    fun RetrieveSeries(name: String?) {
+        val prefs = Preferences(App.application)
 
-        subscription = tvDbApi.login(LoginData(API_KEY, USER_KEY, USER_NAME))
+        val token = prefs.Token
+
+        if (name.isNullOrEmpty() || token.isNullOrEmpty()) return
+
+        subscription = tvDbApi.searchSeries(name, token)
             .subscribeOn(Schedulers.io())
-            //we like the fetched data to be displayed on the MainTread (UI)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
-                { result -> onRetrieveTokenSucces(result) },
-                { error -> onRetrieveTokenError(error) }
+                { result -> onRetrieveSerieSucces(result) },
+                { error -> onRetrieveSerieError(error)}
             )
     }
 
-    private fun onRetrieveTokenError(error: Throwable) {
+    private fun onRetrieveSerieError(error: Throwable) {
         Log.e("mainViewModel", error.message)
     }
 
-    private fun onRetrieveTokenSucces(result: LoginResource) {
-        prefs.Token = result.token
+    private fun onRetrieveSerieSucces(result: SerieResource) {
+        foundSeriesObject.value = result.series
     }
 
     override fun onCleared() {
         super.onCleared()
         subscription.dispose()
-    }
-
-    fun getSerieDataObject(): LiveData<List<SavedSerie>> {
-        return foundSeriesObject
     }
 
 }

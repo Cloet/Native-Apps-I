@@ -4,12 +4,12 @@
     <androidx.recyclerview.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/serie_recyclerView"
-        android:name="SerieListFragment"
+        android:id="@+id/add_serie_recyclerView"
+        android:name="AddSerieListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginLeft="0dp"
         android:layout_marginRight="0dp"
         android:layout_marginTop="50dp"
-        tools:listitem="@layout/series_list_content"/>
+        tools:listitem="@layout/add_series_list_content"/>
 </layout>

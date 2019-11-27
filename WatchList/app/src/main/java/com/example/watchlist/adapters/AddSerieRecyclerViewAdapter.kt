@@ -1,5 +1,6 @@
 package com.example.watchlist.adapters
 
+import com.example.watchlist.model.SavedSerie
 import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
@@ -9,42 +10,23 @@ import android.widget.Filterable
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
+import com.example.watchlist.fragments.AddSerieListFragment
 import androidx.recyclerview.widget.RecyclerView
-import com.example.watchlist.databinding.SeriesListContentBinding
-import com.example.watchlist.fragments.SerieListFragment
-import com.example.watchlist.model.SavedSerie
+import com.example.watchlist.databinding.AddSeriesListContentBinding
 
-class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
-    ListAdapter<SavedSerie, SerieRecyclerViewAdapter.ViewHolder>(SerieDiffCallback()), Filterable {
+class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment) :
+    ListAdapter<SavedSerie, AddSerieRecyclerViewAdapter.ViewHolder>(AddSerieDiffCallback()), Filterable {
 
     override fun getFilter(): Filter {
         return object:Filter(){
-            override fun performFiltering(charString: CharSequence?): FilterResults {
-                val charSearch = charString.toString()
-                if (charSearch.isEmpty())
-                    filteredData = listData
-                else {
-                    val resultList = ArrayList<SavedSerie>()
-                    for(row in listData){
-                        if(row.name!!.toLowerCase().contains(charSearch.toLowerCase()))
-                            resultList.add(row)
-                    }
-                    filteredData = resultList
-                }
-                val filterResults = Filter.FilterResults()
-                filterResults.values = filteredData
-                return filterResults
+            override fun performFiltering(charString: CharSequence?): FilterResults? {
+                return null
             }
 
             override fun publishResults(charSeq: CharSequence?, fRes: FilterResults?) {
-                @Suppress("UNCHECKED_CAST")
-                filteredData = fRes?.values as List<SavedSerie>
-                notifyDataSetChanged()
             }
         }
     }
-
-    var filteredData = listOf<SavedSerie>()
 
     var listData = listOf<SavedSerie>()
         set(value) {
@@ -53,12 +35,10 @@ class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
         }
 
     init {
-        filteredData = listData
-        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-        return filteredData.size
+        return listData.size
     }
 
     override fun onCreateViewHolder(
@@ -71,7 +51,7 @@ class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         // val item = listData[position]
-        val item = filteredData[position]
+        val item = listData[position]
 
         if (position %2 == 1){
             holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
@@ -83,7 +63,7 @@ class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
         holder.bind(item)
     }
 
-    class ViewHolder private constructor(val binding: SeriesListContentBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder private constructor(val binding: AddSeriesListContentBinding) : RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: SavedSerie) {
             binding.serie = item
@@ -91,9 +71,9 @@ class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
         }
 
         companion object {
-            fun from(parent: ViewGroup): ViewHolder {
+            fun from(parent: ViewGroup): ViewHolder{
                 val layoutInflater = LayoutInflater.from(parent.context)
-                val binding = SeriesListContentBinding.inflate(layoutInflater, parent, false)
+                val binding = AddSeriesListContentBinding.inflate(layoutInflater, parent, false)
 
                 return ViewHolder(binding)
             }
@@ -103,11 +83,7 @@ class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
 
 }
 
-class SerieRecyclerViewListener(val clickListener: (serieId: String) -> Unit) {
-    fun onClick(serie: SavedSerie) = clickListener(serie.savedSerieId)
-}
-
-class SerieDiffCallback: DiffUtil.ItemCallback<SavedSerie>() {
+class AddSerieDiffCallback: DiffUtil.ItemCallback<SavedSerie>() {
     override fun areContentsTheSame(oldItem: SavedSerie, newItem: SavedSerie): Boolean {
         return oldItem.name == newItem.name
     }

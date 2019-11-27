@@ -11,16 +11,19 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
+import javax.inject.Singleton
 
 @Module
-object NetworkModule {
+class NetworkModule {
 
     @Provides
+    @Singleton
     internal fun provideTVDBApi(retrofit: Retrofit): TVDBApi {
         return retrofit.create(TVDBApi::class.java)
     }
 
     @Provides
+    @Singleton
     internal fun provideRetrofitInterface(): Retrofit {
 
         val interceptor: HttpLoggingInterceptor = HttpLoggingInterceptor().apply {

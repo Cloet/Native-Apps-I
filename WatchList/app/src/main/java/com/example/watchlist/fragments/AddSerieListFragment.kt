@@ -10,16 +10,15 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchlist.R
-import com.example.watchlist.adapters.SerieRecyclerViewAdapter
+import com.example.watchlist.adapters.AddSerieRecyclerViewAdapter
 import com.example.watchlist.model.SavedSerie
-import com.example.watchlist.ui.SavedSeriesViewModel
-import kotlinx.android.synthetic.main.series_list.*
+import com.example.watchlist.ui.AddSeriesViewModel
+import kotlinx.android.synthetic.main.add_series_list.*
 
-class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
+class AddSerieListFragment: Fragment(), SearchView.OnQueryTextListener {
 
-
-    private lateinit var serieListViewModel: SavedSeriesViewModel
-    private lateinit var adapter: SerieRecyclerViewAdapter
+    private lateinit var addSerieViewModel: AddSeriesViewModel
+    private lateinit var adapter: AddSerieRecyclerViewAdapter
     var searchView: SearchView? = null
 
     override fun onCreateView(
@@ -27,37 +26,35 @@ class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        var root = inflater.inflate(R.layout.fragment_series_list, container, false)
+        var root = inflater.inflate(R.layout.fragment_add_series_list, container, false)
         return root
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        serieListViewModel = ViewModelProviders.of(activity!!).get(SavedSeriesViewModel::class.java)
+        addSerieViewModel = ViewModelProviders.of(activity!!).get(AddSeriesViewModel::class.java)
 
-        adapter = SerieRecyclerViewAdapter(this)
+        adapter = AddSerieRecyclerViewAdapter(this)
 
         searchView = view!!.findViewById(R.id.searchBar)
         searchView!!.setOnQueryTextListener(this)
 
-        serieListViewModel.getAllSeries().observe(this, Observer<List<SavedSerie>> {
-            if (adapter.listData.isEmpty())
-                adapter.filteredData = it
+        addSerieViewModel.foundSeriesObject.observe(this, Observer<List<SavedSerie>> {
             adapter.listData = it
         })
 
-        serie_recyclerView.adapter = adapter
-        serie_recyclerView.layoutManager = LinearLayoutManager(activity)
+        add_serie_recyclerView.adapter = adapter
+        add_serie_recyclerView.layoutManager = LinearLayoutManager(activity)
     }
 
     override fun onQueryTextSubmit(p0: String?): Boolean {
-        return false
+        addSerieViewModel.RetrieveSeries(p0)
+        return true
     }
 
     override fun onQueryTextChange(filter: String?): Boolean {
-        adapter!!.filter.filter(filter)
-        return true
+        return false
     }
 
 }
