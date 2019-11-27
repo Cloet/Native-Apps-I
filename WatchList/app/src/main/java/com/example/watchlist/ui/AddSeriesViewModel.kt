@@ -12,12 +12,14 @@ import com.example.watchlist.model.Preferences
 import com.example.watchlist.model.SavedSerie
 import com.example.watchlist.model.SerieResource
 import com.example.watchlist.network.TVDBApi
+import com.example.watchlist.persistence.SavedSerieRepository
 import com.example.watchlist.utils.API_KEY
 import com.example.watchlist.utils.USER_KEY
 import com.example.watchlist.utils.USER_NAME
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 class AddSeriesViewModel: ViewModel() {
@@ -25,7 +27,10 @@ class AddSeriesViewModel: ViewModel() {
     @Inject
     lateinit var tvDbApi: TVDBApi
 
-    lateinit var subscription: Disposable
+    private var subscription: Disposable? = null
+
+    @Inject
+    lateinit var savedSeriesRepository: SavedSerieRepository
 
     var foundSeriesObject = MutableLiveData<List<SavedSerie>>()
 
@@ -58,9 +63,15 @@ class AddSeriesViewModel: ViewModel() {
         foundSeriesObject.value = result.series
     }
 
+    fun insertSerie(serie: SavedSerie) {
+        doAsync {
+            savedSeriesRepository.insert(serie)
+        }
+    }
+
     override fun onCleared() {
         super.onCleared()
-        subscription.dispose()
+        subscription?.dispose()
     }
 
 }

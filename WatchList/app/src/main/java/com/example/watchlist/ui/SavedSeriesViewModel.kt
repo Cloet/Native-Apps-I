@@ -17,7 +17,7 @@ class SavedSeriesViewModel : ViewModel() {
 
     init {
         App.component.inject(this)
-        insertSampleData()
+        // insertSampleData()
     }
 
     fun getAllSeries(): LiveData<List<SavedSerie>> {
@@ -25,7 +25,9 @@ class SavedSeriesViewModel : ViewModel() {
     }
 
     fun insertSerie(savedSerie: SavedSerie) {
-        savedSerieRepository.insert(savedSerie)
+        doAsync {
+            savedSerieRepository.insert(savedSerie)
+        }
     }
 
     fun insertSampleData() {

@@ -6,11 +6,12 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import java.util.*
 
 
 @Entity(tableName = "Savedserie_table")
 data class SavedSerie(
-    @PrimaryKey @ColumnInfo(name = "savedSerieId") val savedSerieId: String = "",
+    @PrimaryKey @ColumnInfo(name = "savedSerieId") val savedSerieId: String = UUID.randomUUID().toString(),
     @field:Json(name="seriesName") @ColumnInfo(name = "name") val name: String = "",
     @ColumnInfo(name = "overview") val overview: String = "",
     @ColumnInfo(name = "slug") val slug: String = "",

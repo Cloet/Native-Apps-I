@@ -14,7 +14,7 @@ import com.example.watchlist.fragments.AddSerieListFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watchlist.databinding.AddSeriesListContentBinding
 
-class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment) :
+class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, private val listener: AddSerieRecyclerViewListener) :
     ListAdapter<SavedSerie, AddSerieRecyclerViewAdapter.ViewHolder>(AddSerieDiffCallback()), Filterable {
 
     override fun getFilter(): Filter {
@@ -60,13 +60,14 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment) :
             holder.itemView.setBackgroundColor(Color.parseColor("#FFFAF8FD"))
         }
 
-        holder.bind(item)
+        holder.bind(item, listener)
     }
 
     class ViewHolder private constructor(val binding: AddSeriesListContentBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SavedSerie) {
+        fun bind(item: SavedSerie, clickListener: AddSerieRecyclerViewListener) {
             binding.serie = item
+            binding.clickListener = clickListener
             binding.executePendingBindings()
         }
 
@@ -81,6 +82,10 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment) :
 
     }
 
+}
+
+class AddSerieRecyclerViewListener(val clickListener: (serie: SavedSerie) -> Unit) {
+    fun onClick(serie: SavedSerie) = clickListener(serie)
 }
 
 class AddSerieDiffCallback: DiffUtil.ItemCallback<SavedSerie>() {

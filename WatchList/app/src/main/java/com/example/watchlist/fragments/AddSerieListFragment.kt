@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchlist.R
 import com.example.watchlist.adapters.AddSerieRecyclerViewAdapter
+import com.example.watchlist.adapters.AddSerieRecyclerViewListener
 import com.example.watchlist.model.SavedSerie
 import com.example.watchlist.ui.AddSeriesViewModel
 import kotlinx.android.synthetic.main.add_series_list.*
@@ -35,9 +36,11 @@ class AddSerieListFragment: Fragment(), SearchView.OnQueryTextListener {
 
         addSerieViewModel = ViewModelProviders.of(activity!!).get(AddSeriesViewModel::class.java)
 
-        adapter = AddSerieRecyclerViewAdapter(this)
+        adapter = AddSerieRecyclerViewAdapter(this, AddSerieRecyclerViewListener {
+            serie -> addSerieViewModel.insertSerie(serie)
+        })
 
-        searchView = view!!.findViewById(R.id.searchBar)
+        searchView = view!!.findViewById(R.id.add_searchBar)
         searchView!!.setOnQueryTextListener(this)
 
         addSerieViewModel.foundSeriesObject.observe(this, Observer<List<SavedSerie>> {

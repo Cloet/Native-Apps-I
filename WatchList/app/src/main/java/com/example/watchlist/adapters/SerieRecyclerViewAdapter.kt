@@ -10,6 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.example.watchlist.databinding.SeriesListBinding
 import com.example.watchlist.databinding.SeriesListContentBinding
 import com.example.watchlist.fragments.SerieListFragment
 import com.example.watchlist.model.SavedSerie
