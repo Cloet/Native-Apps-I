@@ -5,6 +5,7 @@ import com.example.watchlist.injection.module.DatabaseModule
 import com.example.watchlist.injection.module.NetworkModule
 import com.example.watchlist.persistence.SavedSerieRepository
 import com.example.watchlist.ui.AddSeriesViewModel
+import com.example.watchlist.ui.EpisodeViewModel
 import com.example.watchlist.ui.MainViewModel
 import com.example.watchlist.ui.SeriesViewModel
 import dagger.Component
@@ -18,6 +19,7 @@ interface ViewModelInjectorComponent {
     fun inject(mainViewModel: MainViewModel)
     fun inject(addSeriesViewModel: AddSeriesViewModel)
     fun inject(seriesViewModel: SeriesViewModel)
+    fun inject(episodeViewModel: EpisodeViewModel)
     fun inject(savedSeriesRepository: SavedSerieRepository)
 
     @Component.Builder

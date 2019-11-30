@@ -29,4 +29,12 @@ class SavedSerieRepository(private val savedSerieDao: SavedSerieDao) {
         return savedSerieDao.getAllSavedSeries()
     }
 
+    @WorkerThread
+    fun checkIfSeriesExists(savedSerie: SavedSerie): Boolean {
+        val count = savedSerieDao.checkIfSerieExistsInDatabase(savedSerie.savedSerieId)
+        if (count == 0) return false
+
+        return true
+    }
+
 }

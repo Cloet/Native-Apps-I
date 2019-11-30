@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModel
 import com.example.watchlist.App
 import com.example.watchlist.model.*
 import com.example.watchlist.network.TVDBApi
+import com.example.watchlist.persistence.SavedSerieRepository
 import com.example.watchlist.utils.API_KEY
 import com.example.watchlist.utils.USER_KEY
 import com.example.watchlist.utils.USER_NAME
@@ -19,17 +20,19 @@ import javax.inject.Inject
 
 class MainViewModel : ViewModel() {
 
-    private val foundSeriesObject = MutableLiveData<List<SavedSerie>>()
-
     @Inject
     lateinit var tvDbApi: TVDBApi
 
     private var subscription: Disposable
 
+    @Inject
+    lateinit var savedSerieRepository: SavedSerieRepository
+
     val prefs : Preferences
 
     init {
         App.component.inject(this)
+
 
         prefs = Preferences(App.application)
 
@@ -54,10 +57,6 @@ class MainViewModel : ViewModel() {
     override fun onCleared() {
         super.onCleared()
         subscription.dispose()
-    }
-
-    fun getSerieDataObject(): LiveData<List<SavedSerie>> {
-        return foundSeriesObject
     }
 
 }

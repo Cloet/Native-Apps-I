@@ -91,7 +91,7 @@ class AddSerieButtonListener(val clickListener: (serie: SavedSerie) -> Unit) {
 
 class AddSerieDiffCallback: DiffUtil.ItemCallback<SavedSerie>() {
     override fun areContentsTheSame(oldItem: SavedSerie, newItem: SavedSerie): Boolean {
-        return oldItem.name == newItem.name
+        return oldItem.savedSerieId == newItem.savedSerieId
     }
 
     override fun areItemsTheSame(oldItem: SavedSerie, newItem: SavedSerie): Boolean {

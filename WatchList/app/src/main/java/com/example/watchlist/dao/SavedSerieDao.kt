@@ -23,4 +23,7 @@ interface SavedSerieDao {
     @Query("SELECT * from savedserie_table where savedSerieId = :savedSerieId")
     fun getSavedSerie(savedSerieId: String): SavedSerie?
 
+    @Query("SELECT COUNT(*) from savedserie_table where savedSerieId = :savedSerieId")
+    fun checkIfSerieExistsInDatabase(savedSerieId: String): Int
+
 }

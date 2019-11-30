@@ -13,9 +13,11 @@ data class Episode(
     @field:Json(name="firstAired") val firstAired: String? = "",
     @field:Json(name="overview") val overView: String = "",
     @field:Json(name="imdbId") val imdbId: String? = "",
-    @field:Json(name="contentRating") val contentRating : String? = ""
+    @field:Json(name="contentRating") val contentRating : String? = "",
+    @field:Json(name="filename") val fileName: String? = ""
 ) : Parcelable {
     constructor(parcel: Parcel): this(
+        parcel.readString(),
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
@@ -47,6 +49,7 @@ data class Episode(
         parcel.writeString(overView)
         parcel.writeString(imdbId)
         parcel.writeString(contentRating)
+        parcel.writeString(fileName)
     }
 
     override fun describeContents(): Int {

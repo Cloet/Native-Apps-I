@@ -2,6 +2,7 @@ package com.example.watchlist.utils
 
 import android.os.Build
 import android.widget.ImageView
+import android.widget.RatingBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
@@ -27,6 +28,13 @@ fun TextView.setName(item: SavedSerie?) {
 @BindingAdapter("serie_banner")
 fun ImageView.setImageResource(item: SavedSerie) {
     item?.let {
-        Picasso.with(this.context).load("https://thetvdb.com${item.banner_location}").resize(130,200).into(this)
+        Picasso.with(this.context).load("https://thetvdb.com${item.banner_location}").resize(500,756).into(this)
+    }
+}
+
+@BindingAdapter("serie_rating")
+fun RatingBar.setRating(item: SavedSerie) {
+    item?.let {
+        rating = item.rating
     }
 }

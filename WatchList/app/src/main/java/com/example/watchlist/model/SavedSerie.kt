@@ -19,7 +19,8 @@ data class SavedSerie(
     @ColumnInfo(name = "status") val status: String? = "",
     @field:Json(name="banner") @ColumnInfo(name = "banner_location") val banner_location: String? = "",
     @ColumnInfo(name = "network") val network: String? = "",
-    @field:Json(name="firstAired") @ColumnInfo(name = "firstAired") val firstAired: String? = ""
+    @field:Json(name="firstAired") @ColumnInfo(name = "firstAired") val firstAired: String? = "",
+    @ColumnInfo(name="rating") val rating: Float
 ) : Parcelable, Serializable {
     constructor(parcel: Parcel): this (
         parcel.readString(),
@@ -29,7 +30,8 @@ data class SavedSerie(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.readFloat()
     ) {
     }
     companion object CREATOR : Parcelable.Creator<SavedSerie> {
@@ -51,6 +53,7 @@ data class SavedSerie(
         parcel.writeString(banner_location)
         parcel.writeString(network)
         parcel.writeString(firstAired)
+        parcel.writeFloat(rating)
     }
 
     override fun describeContents(): Int {
