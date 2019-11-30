@@ -1,6 +1,7 @@
 package com.example.watchlist.ui
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.watchlist.App
 import com.example.watchlist.model.SavedSerie
@@ -9,7 +10,7 @@ import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 
-class SavedSeriesViewModel : ViewModel() {
+class SeriesViewModel : ViewModel() {
 
 
     @Inject
@@ -17,7 +18,6 @@ class SavedSeriesViewModel : ViewModel() {
 
     init {
         App.component.inject(this)
-        // insertSampleData()
     }
 
     fun getAllSeries(): LiveData<List<SavedSerie>> {
@@ -30,12 +30,9 @@ class SavedSeriesViewModel : ViewModel() {
         }
     }
 
-    fun insertSampleData() {
+    fun deleteSerie(savedSerie: SavedSerie) {
         doAsync {
-            insertSerie(SavedSerie("1","Test","This is an overview","good","DONE","","Disney+",""))
-            insertSerie(SavedSerie("2","Mandalorian","This is an overview","good","DONE","","Disney+",""))
-            insertSerie(SavedSerie("3","Star Wars","This is an overview","good","DONE","","Disney+",""))
-            insertSerie(SavedSerie("4","House","This is an overview","good","DONE","","Disney+",""))
+            savedSerieRepository.delete(savedSerie)
         }
     }
 

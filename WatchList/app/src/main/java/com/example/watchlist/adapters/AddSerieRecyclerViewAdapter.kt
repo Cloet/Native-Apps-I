@@ -13,8 +13,9 @@ import androidx.recyclerview.widget.ListAdapter
 import com.example.watchlist.fragments.AddSerieListFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watchlist.databinding.AddSeriesListContentBinding
+import com.example.watchlist.fragments.SerieDetailFragment
 
-class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, private val listener: AddSerieRecyclerViewListener) :
+class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, private val listener: AddSerieRecyclerViewListener, private val addListener: AddSerieButtonListener) :
     ListAdapter<SavedSerie, AddSerieRecyclerViewAdapter.ViewHolder>(AddSerieDiffCallback()), Filterable {
 
     override fun getFilter(): Filter {
@@ -53,23 +54,19 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, pr
         // val item = listData[position]
         val item = listData[position]
 
-        if (position %2 == 1){
-            holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
-        }
-        else {
-            holder.itemView.setBackgroundColor(Color.parseColor("#FFFAF8FD"))
-        }
-
-        holder.bind(item, listener)
+        holder.bind(item, listener, addListener)
     }
 
     class ViewHolder private constructor(val binding: AddSeriesListContentBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SavedSerie, clickListener: AddSerieRecyclerViewListener) {
+        fun bind(item: SavedSerie, clickListener: AddSerieRecyclerViewListener, click: AddSerieButtonListener) {
             binding.serie = item
             binding.clickListener = clickListener
+            binding.addSerieListener = click
             binding.executePendingBindings()
         }
+
+
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder{
@@ -84,7 +81,11 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, pr
 
 }
 
-class AddSerieRecyclerViewListener(val clickListener: (serie: SavedSerie) -> Unit) {
+class AddSerieButtonListener(val clickListener: (serie: SavedSerie) -> Unit) {
+    fun onClick(serie: SavedSerie) = clickListener(serie)
+}
+
+ class AddSerieRecyclerViewListener(val clickListener: (serie: SavedSerie) -> Unit) {
     fun onClick(serie: SavedSerie) = clickListener(serie)
 }
 

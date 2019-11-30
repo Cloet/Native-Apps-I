@@ -1,10 +1,13 @@
 package com.example.watchlist.utils
 
+import android.os.Build
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
 import com.example.watchlist.model.SavedSerie
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
 
 @BindingAdapter("serie_overview")
 fun TextView.setOverview(item: SavedSerie?) {
@@ -13,6 +16,7 @@ fun TextView.setOverview(item: SavedSerie?) {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @BindingAdapter("serie_name")
 fun TextView.setName(item: SavedSerie?) {
     item?.let {
@@ -23,6 +27,6 @@ fun TextView.setName(item: SavedSerie?) {
 @BindingAdapter("serie_banner")
 fun ImageView.setImageResource(item: SavedSerie) {
     item?.let {
-        Picasso.with(this.context).load("https://thetvdb.com${item.banner_location}").resize(200,200).into(this)
+        Picasso.with(this.context).load("https://thetvdb.com${item.banner_location}").resize(130,200).into(this)
     }
 }

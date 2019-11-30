@@ -2,6 +2,7 @@ package com.example.watchlist.persistence
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.watchlist.dao.SavedSerieDao
 import com.example.watchlist.model.SavedSerie
 

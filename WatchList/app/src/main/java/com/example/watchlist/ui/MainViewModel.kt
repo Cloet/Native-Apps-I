@@ -14,6 +14,7 @@ import com.example.watchlist.utils.USER_NAME
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 class MainViewModel : ViewModel() {

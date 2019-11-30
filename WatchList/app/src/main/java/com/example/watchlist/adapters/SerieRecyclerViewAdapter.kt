@@ -15,7 +15,7 @@ import com.example.watchlist.databinding.SeriesListContentBinding
 import com.example.watchlist.fragments.SerieListFragment
 import com.example.watchlist.model.SavedSerie
 
-class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
+class SerieRecyclerViewAdapter(private val fragment: SerieListFragment, private val listener: SerieRecyclerViewListener, private val removeListener: DeleteSerieListener) :
     ListAdapter<SavedSerie, SerieRecyclerViewAdapter.ViewHolder>(SerieDiffCallback()), Filterable {
 
     override fun getFilter(): Filter {
@@ -74,20 +74,15 @@ class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
         // val item = listData[position]
         val item = filteredData[position]
 
-        if (position %2 == 1){
-            holder.itemView.setBackgroundColor(Color.parseColor("#FFFFFF"))
-        }
-        else {
-            holder.itemView.setBackgroundColor(Color.parseColor("#FFFAF8FD"))
-        }
-
-        holder.bind(item)
+        holder.bind(item,listener, removeListener)
     }
 
     class ViewHolder private constructor(val binding: SeriesListContentBinding) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(item: SavedSerie) {
+        fun bind(item: SavedSerie, listener: SerieRecyclerViewListener, removeListener: DeleteSerieListener) {
             binding.serie = item
+            binding.clickListener = listener
+            binding.removeListener = removeListener
             binding.executePendingBindings()
         }
 
@@ -104,8 +99,12 @@ class SerieRecyclerViewAdapter(private val fragment: SerieListFragment) :
 
 }
 
-class SerieRecyclerViewListener(val clickListener: (serieId: String) -> Unit) {
-    fun onClick(serie: SavedSerie) = clickListener(serie.savedSerieId)
+class DeleteSerieListener (val clickListener: (serie: SavedSerie) -> Unit) {
+    fun onClick(serie: SavedSerie) = clickListener(serie)
+}
+
+class SerieRecyclerViewListener(val clickListener: (serie: SavedSerie) -> Unit) {
+    fun onClick(serie: SavedSerie) = clickListener(serie)
 }
 
 class SerieDiffCallback: DiffUtil.ItemCallback<SavedSerie>() {

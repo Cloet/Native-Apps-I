@@ -6,13 +6,15 @@ import android.os.Bundle
 import android.view.View
 import com.example.watchlist.R
 import com.example.watchlist.fragments.MainFragment
-import com.example.watchlist.fragments.SerieListFragment
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        setSupportActionBar(findViewById(R.id.toolbar))
+        supportActionBar?.setDisplayShowTitleEnabled(false)
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()

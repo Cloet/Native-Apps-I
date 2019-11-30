@@ -9,62 +9,97 @@
             name="serie"
             type="com.example.watchlist.model.SavedSerie" />
         <variable
+            name="addSerieListener"
+            type="com.example.watchlist.adapters.AddSerieButtonListener" />
+        <variable
             name="clickListener"
             type="com.example.watchlist.adapters.AddSerieRecyclerViewListener" />
     </data>
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+    <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
-        android:layout_height="265dp"
-        android:onClick="@{()-> clickListener.onClick(serie)}">
+        app:cardCornerRadius="4dp"
+        android:layout_marginTop="5dp"
+        app:cardElevation="4dp"
+        android:layout_height="200dp">
 
-        <ImageView
-            android:id="@+id/serie_banner"
-            android:layout_width="170dp"
-            android:layout_height="250dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:scaleType="centerCrop"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:serie_banner="@{serie}"
-            tools:src="@tools:sample/avatars" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="190dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="5dp"
+            android:onClick="@{()-> clickListener.onClick(serie)}">
 
-        <TextView
-            android:id="@+id/serie_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginBottom="8dp"
-            android:textColor="@android:color/black"
-            android:textSize="16sp"
-            android:textStyle="bold"
-            app:layout_constraintStart_toEndOf="@+id/serie_banner"
-            app:layout_constraintTop_toTopOf="@+id/serie_banner"
-            app:layout_constraintVertical_bias="0.111"
-            app:serie_name="@{serie}"
-            android:ellipsize="end"
-            android:singleLine="true"
-            tools:text="@tools:sample/full_names" />
+            <ImageView
+                android:id="@+id/serie_banner"
+                android:layout_width="130dp"
+                android:layout_height="200dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="2dp"
+                android:scaleType="centerCrop"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:serie_banner="@{serie}"
+                tools:src="@tools:sample/avatars" />
 
-        <TextView
-            android:id="@+id/add_serie_overview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintStart_toEndOf="@+id/serie_banner"
-            app:layout_constraintTop_toBottomOf="@+id/serie_name"
-            app:layout_constraintVertical_bias="0.111"
-            android:textColor="#242323"
-            android:textSize="14sp"
-            app:serie_overview="@{serie}"
-            android:ellipsize="end"
-            android:singleLine="false"
-            android:layout_weight="1"
-            tools:text="@tools:sample/lorem[4:10]" />
+            <TextView
+                android:id="@+id/serie_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="0dp"
+                android:textAppearance="@style/Header"
+                app:layout_constraintStart_toEndOf="@+id/serie_banner"
+                app:layout_constraintTop_toTopOf="@+id/serie_banner"
+                app:layout_constraintVertical_bias="0.111"
+                app:serie_name="@{serie}"
+                android:ellipsize="end"
+                android:singleLine="true"
+                tools:text="@tools:sample/full_names" />
+
+            <TextView
+                android:id="@+id/serie_overview"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textColor="@color/white"
+                android:layout_marginBottom="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/serie_name"
+                app:layout_constraintStart_toEndOf="@id/serie_banner"
+                app:layout_constraintVertical_bias="0.111"
+                app:serie_overview="@{serie}"
+                android:singleLine="false"
+                android:ellipsize="end"
+                android:maxLines="5"
+                android:layout_weight="1"
+                tools:text="@tools:sample/lorem[4:10]" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Details"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/serie_banner"
+                android:onClick="@{()-> clickListener.onClick(serie)}">
+
+            </androidx.appcompat.widget.AppCompatButton>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Serie"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toEndOf="@id/serie_banner"
+                android:onClick="@{()-> addSerieListener.onClick(serie)}">
+
+            </androidx.appcompat.widget.AppCompatButton>
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
+    </com.google.android.material.card.MaterialCardView>
 </layout>

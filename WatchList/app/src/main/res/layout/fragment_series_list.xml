@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".activities.SerieListActivity">
 
-    <SearchView
+    <!--<SearchView
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginTop="0dp"
-        android:queryHint="Enter series name" />
+        android:queryHint="Enter series name" />-->
 
     <include layout="@layout/series_list" />
 

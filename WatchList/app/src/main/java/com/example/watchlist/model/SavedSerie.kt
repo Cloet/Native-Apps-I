@@ -6,20 +6,21 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.squareup.moshi.Json
+import java.io.Serializable
 import java.util.*
 
 
 @Entity(tableName = "Savedserie_table")
 data class SavedSerie(
-    @PrimaryKey @ColumnInfo(name = "savedSerieId") val savedSerieId: String = UUID.randomUUID().toString(),
+    @PrimaryKey @ColumnInfo(name = "savedSerieId") @field:Json(name="id") val savedSerieId: String = "",
     @field:Json(name="seriesName") @ColumnInfo(name = "name") val name: String = "",
     @ColumnInfo(name = "overview") val overview: String = "",
-    @ColumnInfo(name = "slug") val slug: String = "",
-    @ColumnInfo(name = "status") val status: String = "",
-    @field:Json(name="banner") @ColumnInfo(name = "banner_location") val banner_location: String = "",
-    @ColumnInfo(name = "network") val network: String = "",
-    @field:Json(name="dateFirstAired") @ColumnInfo(name = "firstAired") val dateFirstAired: String = ""
-) : Parcelable {
+    @ColumnInfo(name = "slug") val slug: String? = "",
+    @ColumnInfo(name = "status") val status: String? = "",
+    @field:Json(name="banner") @ColumnInfo(name = "banner_location") val banner_location: String? = "",
+    @ColumnInfo(name = "network") val network: String? = "",
+    @field:Json(name="firstAired") @ColumnInfo(name = "firstAired") val firstAired: String? = ""
+) : Parcelable, Serializable {
     constructor(parcel: Parcel): this (
         parcel.readString(),
         parcel.readString(),
@@ -49,7 +50,7 @@ data class SavedSerie(
         parcel.writeString(status)
         parcel.writeString(banner_location)
         parcel.writeString(network)
-        parcel.writeString(dateFirstAired)
+        parcel.writeString(firstAired)
     }
 
     override fun describeContents(): Int {
