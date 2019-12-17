@@ -4,16 +4,21 @@ import com.example.watchlist.model.SavedSerie
 import android.graphics.Color
 import android.os.Build
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.watchlist.fragments.AddSerieListFragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.watchlist.databinding.AddSeriesListContentBinding
 import com.example.watchlist.fragments.SerieDetailFragment
+import org.jetbrains.anko.doAsync
 
 class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, private val listener: AddSerieRecyclerViewListener, private val addListener: AddSerieButtonListener) :
     ListAdapter<SavedSerie, AddSerieRecyclerViewAdapter.ViewHolder>(AddSerieDiffCallback()), Filterable {
@@ -35,9 +40,6 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, pr
             notifyDataSetChanged()
         }
 
-    init {
-    }
-
     override fun getItemCount(): Int {
         return listData.size
     }
@@ -51,8 +53,18 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, pr
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        // val item = listData[position]
         val item = listData[position]
+
+        doAsync {
+            val exists = fragment.isSeriesInWatchList(item)
+            if (exists) {
+                holder.binding.addToPlaylist.visibility = View.GONE
+                holder.binding.addedToPlaylist.visibility = View.VISIBLE
+            } else {
+                holder.binding.addToPlaylist.visibility = View.VISIBLE
+                holder.binding.addedToPlaylist.visibility = View.GONE
+            }
+        }
 
         holder.bind(item, listener, addListener)
     }
@@ -65,8 +77,6 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, pr
             binding.addSerieListener = click
             binding.executePendingBindings()
         }
-
-
 
         companion object {
             fun from(parent: ViewGroup): ViewHolder{
@@ -91,7 +101,7 @@ class AddSerieButtonListener(val clickListener: (serie: SavedSerie) -> Unit) {
 
 class AddSerieDiffCallback: DiffUtil.ItemCallback<SavedSerie>() {
     override fun areContentsTheSame(oldItem: SavedSerie, newItem: SavedSerie): Boolean {
-        return oldItem.savedSerieId == newItem.savedSerieId
+        return (oldItem.savedSerieId == newItem.savedSerieId)
     }
 
     override fun areItemsTheSame(oldItem: SavedSerie, newItem: SavedSerie): Boolean {

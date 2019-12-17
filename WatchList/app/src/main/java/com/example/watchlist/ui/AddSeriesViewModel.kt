@@ -1,21 +1,15 @@
 package com.example.watchlist.ui
 
-import android.app.Application
-import android.content.Context
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.watchlist.App
-import com.example.watchlist.model.LoginData
 import com.example.watchlist.model.Preferences
 import com.example.watchlist.model.SavedSerie
 import com.example.watchlist.model.SerieResource
 import com.example.watchlist.network.TVDBApi
 import com.example.watchlist.persistence.SavedSerieRepository
-import com.example.watchlist.utils.API_KEY
-import com.example.watchlist.utils.USER_KEY
-import com.example.watchlist.utils.USER_NAME
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
@@ -34,12 +28,17 @@ class AddSeriesViewModel: ViewModel() {
 
     var foundSeriesObject = MutableLiveData<List<SavedSerie>>()
 
+    private val _retrieving = MutableLiveData<Boolean>()
+    val retrieving: LiveData<Boolean>
+        get() = _retrieving
 
     init {
         App.component.inject(this)
     }
 
     fun RetrieveSeries(name: String?) {
+        this._retrieving.value = true
+
         val prefs = Preferences(App.application)
 
         val token = prefs.Token
@@ -60,6 +59,7 @@ class AddSeriesViewModel: ViewModel() {
     }
 
     private fun onRetrieveSerieSucces(result: SerieResource) {
+        this._retrieving.value = false
         foundSeriesObject.value = result.series
     }
 

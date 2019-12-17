@@ -77,26 +77,40 @@
                 android:layout_weight="1"
                 tools:text="@tools:sample/lorem[4:10]" />
 
-            <androidx.appcompat.widget.AppCompatButton
+
+            <ImageView
+                android:id="@+id/add_to_playlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Details"
+                android:src="@drawable/ic_playlist_add_white_48dp"
+                app:layout_constraintEnd_toStartOf="@id/serie_info"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/serie_banner"
-                android:onClick="@{()-> clickListener.onClick(serie)}">
+                android:layout_marginRight="6dp"
+                android:onClick="@{()-> addSerieListener.onClick(serie)}"
+                />
 
-            </androidx.appcompat.widget.AppCompatButton>
-
-            <androidx.appcompat.widget.AppCompatButton
+            <ImageView
+                android:id="@+id/added_to_playlist"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Serie"
+                android:src="@drawable/ic_playlist_add_check_white_48dp"
+                app:layout_constraintEnd_toStartOf="@id/serie_info"
+                android:layout_marginRight="6dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                />
+
+            <ImageView
+                android:id="@+id/serie_info"
+                android:layout_marginLeft="48dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_info_white_48dp"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@id/serie_banner"
-                android:onClick="@{()-> addSerieListener.onClick(serie)}">
+                android:onClick="@{()-> clickListener.onClick(serie)}"
+                android:layout_marginRight="6dp"
+                />
 
-            </androidx.appcompat.widget.AppCompatButton>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

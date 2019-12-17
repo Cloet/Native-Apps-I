@@ -6,8 +6,10 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'kotlin-kapt'
 
-
 apply plugin: 'org.jetbrains.dokka-android'
+
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 
 android {
     compileSdkVersion 28
@@ -19,6 +21,13 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
     }
     buildTypes {
         release {
@@ -32,6 +41,7 @@ android {
 }
 
 dependencies {
+
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     implementation 'androidx.appcompat:appcompat:1.0.2'
@@ -107,6 +117,14 @@ dependencies {
 
 
     implementation 'de.hdodenhof:circleimageview:3.0.1'
+
+    // Java language implementation
+    implementation "androidx.navigation:navigation-fragment:$versions.nav_version"
+    implementation "androidx.navigation:navigation-ui:$versions.nav_version"
+
+    // Kotlin
+    implementation "androidx.navigation:navigation-fragment-ktx:$versions.nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$versions.nav_version"
 
 }
 dokka {

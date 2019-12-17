@@ -5,20 +5,25 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchlist.R
 import com.example.watchlist.adapters.ActorAdapter
 import com.example.watchlist.adapters.EpisodeAdapter
+import com.example.watchlist.databinding.AddSeriesListBinding
 import com.example.watchlist.databinding.SeriesDetailBinding
 import com.example.watchlist.model.Actor
 import com.example.watchlist.model.Episode
 import com.example.watchlist.model.SavedSerie
 import com.example.watchlist.ui.AddSeriesViewModel
 import com.example.watchlist.ui.EpisodeViewModel
+import com.example.watchlist.ui.SeriesDetailViewModel
 import com.example.watchlist.ui.SeriesViewModel
 import kotlinx.android.synthetic.main.actor_list.*
 import kotlinx.android.synthetic.main.episodes_list.*
@@ -27,72 +32,75 @@ import org.jetbrains.anko.doAsync
 import javax.inject.Inject
 
 class SerieDetailFragment: Fragment() {
-    companion object {
-        val SERIE_MODEL = "model"
-
-        fun newInstance(savedSerie: SavedSerie): SerieDetailFragment {
-            val args = Bundle()
-            args.putSerializable(SERIE_MODEL,savedSerie)
-            val fragment = SerieDetailFragment()
-            fragment.arguments = args
-            return fragment
-        }
-    }
 
     private lateinit var episodeViewModel: EpisodeViewModel
+    private lateinit var seriesDetailViewModel: SeriesDetailViewModel
     private lateinit var episodeAdapter: EpisodeAdapter
     private lateinit var actorAdapter: ActorAdapter
     private lateinit var clickListener: SerieDetailAddListener
     private lateinit var serie: SavedSerie
 
+    val args : SerieDetailFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val detailFragment = SeriesDetailBinding.inflate(inflater,container,false)
-        val model = arguments!!.getSerializable(SERIE_MODEL) as SavedSerie
 
-        episodeViewModel = ViewModelProviders.of(activity!!).get(EpisodeViewModel::class.java)
-
-        doAsync {
-            val api = episodeViewModel.savedSerieRepository.checkIfSeriesExists(model)
-            detailFragment.fromApi = !api
-            detailFragment.executePendingBindings()
-        }
-
-        clickListener = SerieDetailAddListener {
-            serie ->
-            doAsync {
-                val exists = episodeViewModel.savedSerieRepository.checkIfSeriesExists(serie)
-                val button = view!!.findViewById<Button>(R.id.add_delete_button)
-                if (!exists) {
-                    episodeViewModel.savedSerieRepository.insert(serie)
-                    button.setText("Delete")
-                } else {
-                    episodeViewModel.savedSerieRepository.delete(serie)
-                    button.setText("Add")
-                }
-                detailFragment.fromApi = !exists
-                detailFragment.executePendingBindings()
-            }
-        }
+        val detailFragment: SeriesDetailBinding = DataBindingUtil.inflate(inflater,R.layout.series_detail, container,false)
+        val model = args.serie
 
         serie = model
         detailFragment.serie = model
-        detailFragment.fromApi = false
-        detailFragment.clickListener = clickListener
-        detailFragment.executePendingBindings()
+        detailFragment.lifecycleOwner = this
 
+        seriesDetailViewModel = ViewModelProviders.of(activity!!).get(SeriesDetailViewModel::class.java)
+        episodeViewModel = ViewModelProviders.of(activity!!).get(EpisodeViewModel::class.java)
+
+        doAsync {
+            val exists = episodeViewModel.savedSerieRepository.checkIfSeriesExists(model)
+            seriesDetailViewModel.setFromApi(!exists)
+        }
+
+        seriesDetailViewModel.fromApi.observe(viewLifecycleOwner, Observer {
+            if (it) {
+                detailFragment.addButton.visibility = View.VISIBLE
+                detailFragment.deleteButton.visibility = View.GONE
+            } else {
+                detailFragment.addButton.visibility = View.GONE
+                detailFragment.deleteButton.visibility = View.VISIBLE
+            }
+        })
+
+        clickListener = SerieDetailAddListener {
+            serie ->
+            serie?.let {
+                doAsync {
+                    val exists = episodeViewModel.savedSerieRepository.checkIfSeriesExists(serie)
+                    if (!exists) {
+                        activity!!.runOnUiThread(Runnable {
+                            Toast.makeText(context,serie.name + " has been added to your watchlist!", Toast.LENGTH_SHORT).show()
+                        })
+                        episodeViewModel.savedSerieRepository.insert(serie)
+                    } else {
+                        activity!!.runOnUiThread(Runnable {
+                            Toast.makeText(context,serie.name + " has been deleted from your watchlist!", Toast.LENGTH_SHORT).show()
+                        })
+                        episodeViewModel.savedSerieRepository.delete(serie)
+                    }
+                    seriesDetailViewModel.setFromApi(exists)
+                }
+            }
+        }
+
+        detailFragment.clickListener = clickListener
         return detailFragment.root
     }
 
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
-        // episodeViewModel = ViewModelProviders.of(activity!!).get(EpisodeViewModel::class.java)
 
         episodeAdapter = EpisodeAdapter(this)
         actorAdapter = ActorAdapter(this)
@@ -113,14 +121,6 @@ class SerieDetailFragment: Fragment() {
         episode_recyclerView.adapter = episodeAdapter
         episode_recyclerView.layoutManager = LinearLayoutManager(activity, LinearLayoutManager.HORIZONTAL, false)
     }
-
-
-
-
-    interface onSerieSelected {
-        fun onSerieSelected(serie: SavedSerie)
-    }
-
 
 }
 

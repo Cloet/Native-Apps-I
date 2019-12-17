@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.watchlist.fragments.MainFragment"
+        android:label="MainFragment" >
+        <action
+            android:id="@+id/action_mainFragment_to_addSerieListFragment"
+            app:destination="@id/addSerieListFragment" />
+        <action
+            android:id="@+id/action_mainFragment_to_serieListFragment"
+            app:destination="@+id/serieListFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/serieDetailFragment"
+        android:name="com.example.watchlist.fragments.SerieDetailFragment"
+        android:label="SerieDetailFragment" >
+        <argument
+            android:name="serie"
+            app:argType="com.example.watchlist.model.SavedSerie" />
+        <action
+            android:id="@+id/action_serieDetailFragment_to_addSerieListFragment"
+            app:destination="@id/addSerieListFragment"
+            app:popUpTo="@+id/serieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/addSerieListFragment"
+        android:name="com.example.watchlist.fragments.AddSerieListFragment"
+        android:label="AddSerieListFragment" >
+        <action
+            android:id="@+id/action_addSerieListFragment_to_serieDetailFragment"
+            app:destination="@id/serieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/serieListFragment"
+        android:name="com.example.watchlist.fragments.SerieListFragment"
+        android:label="SerieListFragment" >
+        <action
+            android:id="@+id/action_serieListFragment_to_serieDetailFragment"
+            app:destination="@id/serieDetailFragment" />
+    </fragment>
+</navigation>

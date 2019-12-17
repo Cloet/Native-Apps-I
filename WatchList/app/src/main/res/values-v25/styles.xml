@@ -1,12 +1,13 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.NoActionBar">
+
+    <style name="AppTheme" parent="Theme.AppCompat">
         <item name="android:colorPrimary">@color/colorPrimaryDark</item>
         <item name="android:colorPrimaryDark">@color/colorPrimary</item>
         <item name="android:textColorPrimary">@color/white</item>
-        <item name="android:colorAccent">@color/white</item>
-        <item name="android:color">@color/white</item>
+        <item name="android:colorAccent">@color/primColor</item>
+        <item name="android:color">@color/primColor</item>
         <item name="android:windowBackground">@color/colorPrimary</item>
     </style>
 

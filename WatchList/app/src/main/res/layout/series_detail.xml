@@ -7,9 +7,6 @@
         <import type="android.content.Context"/>
         <import type="android.view.View" />
         <variable
-            name="fromApi"
-            type="Boolean" />
-        <variable
             name="serie"
             type="com.example.watchlist.model.SavedSerie" />
         <variable
@@ -68,13 +65,24 @@
             </RatingBar>
 
             <Button
-                android:id="@+id/add_delete_button"
+                android:id="@+id/add_button"
                 app:layout_constraintBottom_toBottomOf="@id/serie_banner"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text='@{fromApi ? "Add" : "Delete" }'
+                android:text="Add"
+                android:onClick="@{()-> clickListener.onClick(serie)}"
+                />
+
+            <Button
+                android:id="@+id/delete_button"
+                app:layout_constraintBottom_toBottomOf="@id/serie_banner"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginEnd="8dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
                 android:onClick="@{()-> clickListener.onClick(serie)}"
                 />
 
