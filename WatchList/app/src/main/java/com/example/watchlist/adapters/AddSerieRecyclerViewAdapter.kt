@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.ImageView
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,11 +17,14 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import com.example.watchlist.fragments.AddSerieListFragment
 import androidx.recyclerview.widget.RecyclerView
+import com.example.watchlist.R
 import com.example.watchlist.databinding.AddSeriesListContentBinding
 import com.example.watchlist.fragments.SerieDetailFragment
 import org.jetbrains.anko.doAsync
 
-class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, private val listener: AddSerieRecyclerViewListener, private val addListener: AddSerieButtonListener) :
+class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment
+                                  , private val listener: AddSerieRecyclerViewListener
+                                  , private val addListener: AddSerieButtonListener) :
     ListAdapter<SavedSerie, AddSerieRecyclerViewAdapter.ViewHolder>(AddSerieDiffCallback()), Filterable {
 
     override fun getFilter(): Filter {
@@ -57,12 +61,20 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, pr
 
         doAsync {
             val exists = fragment.isSeriesInWatchList(item)
-            if (exists) {
-                holder.binding.addToPlaylist.visibility = View.GONE
-                holder.binding.addedToPlaylist.visibility = View.VISIBLE
-            } else {
-                holder.binding.addToPlaylist.visibility = View.VISIBLE
-                holder.binding.addedToPlaylist.visibility = View.GONE
+
+            item.rating = if (exists) fragment.getSeriesRating(item) else 0F
+
+            fragment.activity!!.runOnUiThread {
+                if (exists) {
+                    holder.binding.serieRatingBar.rating = item.rating
+                    holder.binding.addToPlaylist.visibility = View.GONE
+                    holder.binding.addedToPlaylist.visibility = View.VISIBLE
+                } else {
+                    holder.binding.serieRatingBar.visibility = View.GONE
+                    holder.binding.addToPlaylist.visibility = View.VISIBLE
+                    holder.binding.addedToPlaylist.visibility = View.GONE
+                }
+                holder.binding.executePendingBindings()
             }
         }
 
@@ -90,6 +102,7 @@ class AddSerieRecyclerViewAdapter(private val fragment: AddSerieListFragment, pr
     }
 
 }
+
 
 class AddSerieButtonListener(val clickListener: (serie: SavedSerie) -> Unit) {
     fun onClick(serie: SavedSerie) = clickListener(serie)

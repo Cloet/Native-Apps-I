@@ -6,6 +6,8 @@ import android.widget.RatingBar
 import android.widget.TextView
 import androidx.annotation.RequiresApi
 import androidx.databinding.BindingAdapter
+import androidx.databinding.InverseBindingAdapter
+import androidx.databinding.InverseBindingListener
 import com.example.watchlist.model.SavedSerie
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
@@ -33,8 +35,8 @@ fun ImageView.setImageResource(item: SavedSerie) {
 }
 
 @BindingAdapter("serie_rating")
-fun RatingBar.setRating(item: SavedSerie) {
+fun setRating(view: RatingBar, item: SavedSerie) {
     item?.let {
-        rating = item.rating
+        view.rating = item.rating
     }
 }

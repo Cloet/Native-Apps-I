@@ -1,37 +1,34 @@
 package com.example.watchlist.fragments
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
+import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchlist.R
 import com.example.watchlist.adapters.ActorAdapter
 import com.example.watchlist.adapters.EpisodeAdapter
-import com.example.watchlist.databinding.AddSeriesListBinding
 import com.example.watchlist.databinding.SeriesDetailBinding
 import com.example.watchlist.model.Actor
 import com.example.watchlist.model.Episode
 import com.example.watchlist.model.SavedSerie
-import com.example.watchlist.ui.AddSeriesViewModel
 import com.example.watchlist.ui.EpisodeViewModel
 import com.example.watchlist.ui.SeriesDetailViewModel
-import com.example.watchlist.ui.SeriesViewModel
 import kotlinx.android.synthetic.main.actor_list.*
 import kotlinx.android.synthetic.main.episodes_list.*
-import kotlinx.android.synthetic.main.series_detail.view.*
 import org.jetbrains.anko.doAsync
-import javax.inject.Inject
 
-class SerieDetailFragment: Fragment() {
+class SerieDetailFragment: Fragment()  {
 
     private lateinit var episodeViewModel: EpisodeViewModel
     private lateinit var seriesDetailViewModel: SeriesDetailViewModel
@@ -63,18 +60,26 @@ class SerieDetailFragment: Fragment() {
             seriesDetailViewModel.setFromApi(!exists)
         }
 
+        detailFragment.serieRatingBar.setOnRatingBarChangeListener { _, fl, _ ->
+            serie?.let {
+                serie.rating = fl
+                seriesDetailViewModel.updateSerieRating(serie)
+            }
+        }
+
         seriesDetailViewModel.fromApi.observe(viewLifecycleOwner, Observer {
             if (it) {
+                detailFragment.serieRatingBar.visibility = View.GONE
                 detailFragment.addButton.visibility = View.VISIBLE
                 detailFragment.deleteButton.visibility = View.GONE
             } else {
+                detailFragment.serieRatingBar.visibility = View.VISIBLE
                 detailFragment.addButton.visibility = View.GONE
                 detailFragment.deleteButton.visibility = View.VISIBLE
             }
         })
 
-        clickListener = SerieDetailAddListener {
-            serie ->
+        clickListener = SerieDetailAddListener { serie ->
             serie?.let {
                 doAsync {
                     val exists = episodeViewModel.savedSerieRepository.checkIfSeriesExists(serie)
@@ -83,13 +88,29 @@ class SerieDetailFragment: Fragment() {
                             Toast.makeText(context,serie.name + " has been added to your watchlist!", Toast.LENGTH_SHORT).show()
                         })
                         episodeViewModel.savedSerieRepository.insert(serie)
+                        seriesDetailViewModel.setFromApi(exists)
                     } else {
-                        activity!!.runOnUiThread(Runnable {
-                            Toast.makeText(context,serie.name + " has been deleted from your watchlist!", Toast.LENGTH_SHORT).show()
-                        })
-                        episodeViewModel.savedSerieRepository.delete(serie)
+
+                        val builder = AlertDialog.Builder(activity!!)
+                        builder.setMessage("Delete " + serie.name + "?").setCancelable(true)
+                            .setPositiveButton("Ok") { dialog, _ ->
+                                Toast.makeText(context,serie.name + " has been deleted from your watchlist!", Toast.LENGTH_SHORT).show()
+                                doAsync {
+                                    episodeViewModel.savedSerieRepository.delete(serie)
+                                }
+                                dialog.dismiss()
+                                seriesDetailViewModel.setFromApi(exists)
+                            }
+                            .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel()
+                            }
+
+                        activity!!.runOnUiThread {
+                            val alert = builder.create()
+                            alert.setTitle("Delete")
+                            alert.show()
+                        }
                     }
-                    seriesDetailViewModel.setFromApi(exists)
+
                 }
             }
         }

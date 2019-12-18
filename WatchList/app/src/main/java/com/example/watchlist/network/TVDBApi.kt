@@ -21,4 +21,5 @@ interface TVDBApi {
     @Headers("Content-Type: application/json")
     @GET("series/{id}/actors")
     fun searchActors(@Path("id") seriesId: String, @Header("Authorization") authToken: String): Observable<ActorResource>
+
 }

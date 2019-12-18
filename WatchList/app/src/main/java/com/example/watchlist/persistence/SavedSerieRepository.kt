@@ -30,6 +30,26 @@ class SavedSerieRepository(private val savedSerieDao: SavedSerieDao) {
     }
 
     @WorkerThread
+    fun updateSavedSerieRating(savedSerie: SavedSerie) {
+        savedSerieDao.updateRatingSerie(savedSerie.savedSerieId, savedSerie.rating)
+    }
+
+    @WorkerThread
+    fun getSerieWithId(savedSerie: SavedSerie): SavedSerie? {
+        return savedSerieDao.getSavedSerie(savedSerie.savedSerieId)
+    }
+
+    @WorkerThread
+    fun getAllContinuingSeries() : LiveData<List<SavedSerie>> {
+        return savedSerieDao.getAllContinuingSeries()
+    }
+
+    @WorkerThread
+    fun getTotalAmountSavedSeries(): LiveData<Int> {
+        return savedSerieDao.getTotalAmountOfSeriesSaved()
+    }
+
+    @WorkerThread
     fun checkIfSeriesExists(savedSerie: SavedSerie): Boolean {
         val count = savedSerieDao.checkIfSerieExistsInDatabase(savedSerie.savedSerieId)
         if (count == 0) return false

@@ -54,7 +54,7 @@
                 android:id="@+id/serie_rating_bar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:isIndicator="true"
+                android:isIndicator="false"
                 android:scaleX="0.8"
                 android:scaleY="0.8"
                 app:layout_constraintTop_toBottomOf="@id/serie_name"
@@ -64,34 +64,32 @@
                 android:numStars="5">
             </RatingBar>
 
-            <Button
+            <ImageView
                 android:id="@+id/add_button"
                 app:layout_constraintBottom_toBottomOf="@id/serie_banner"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add"
-                android:onClick="@{()-> clickListener.onClick(serie)}"
-                />
+                android:src="@drawable/ic_playlist_add_48dp"
+                android:onClick="@{()-> clickListener.onClick(serie)}" />
 
-            <Button
+            <ImageView
                 android:id="@+id/delete_button"
                 app:layout_constraintBottom_toBottomOf="@id/serie_banner"
                 app:layout_constraintEnd_toEndOf="parent"
                 android:layout_marginEnd="8dp"
+                android:src="@drawable/ic_delete_48dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Delete"
-                android:onClick="@{()-> clickListener.onClick(serie)}"
-                />
+                android:onClick="@{()-> clickListener.onClick(serie)}" />
 
             <TextView
                 android:id="@+id/serie_overview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginEnd="8dp"
+                android:layout_marginEnd="24dp"
                 android:layout_marginTop="8dp"
                 android:background="@color/colorPrimary"
                 app:serie_overview="@{serie}"
@@ -121,6 +119,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="250dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 tools:text="@tools:sample/full_names"

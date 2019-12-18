@@ -1,5 +1,6 @@
 package com.example.watchlist.fragments
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.*
 import android.widget.SearchView
@@ -18,6 +19,7 @@ import com.example.watchlist.databinding.SeriesListBinding
 import com.example.watchlist.model.SavedSerie
 import com.example.watchlist.ui.SeriesViewModel
 import kotlinx.android.synthetic.main.series_list.*
+import org.jetbrains.anko.doAsync
 
 class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
 
@@ -46,8 +48,22 @@ class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
             }
         }, DeleteSerieListener { serie ->
             serie?.let {
-                Toast.makeText(context,serie.name + " has been deleted from your watchlist.", Toast.LENGTH_LONG).show()
-                serieListViewModel.deleteSerie(serie)
+
+                val builder = AlertDialog.Builder(activity!!)
+                builder.setMessage("Delete " + serie.name + "?").setCancelable(true)
+                    .setPositiveButton("Ok") { dialog, _ ->
+                        Toast.makeText(context,serie.name + " has been deleted from your watchlist!", Toast.LENGTH_SHORT).show()
+                        serieListViewModel.deleteSerie(serie)
+                        dialog.dismiss()
+                    }
+                    .setNegativeButton("Cancel") { dialog, _ -> dialog.cancel()
+                    }
+
+                activity!!.runOnUiThread {
+                    val alert = builder.create()
+                    alert.setTitle("Delete")
+                    alert.show()
+                }
             }
         })
 
@@ -62,8 +78,10 @@ class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
                 binding.serieRecyclerView.visibility = View.VISIBLE
             }
 
-            if (filterGlobal.isNullOrEmpty())
+            if (filterGlobal.isNullOrEmpty()) {
                 adapter.filteredData = it
+                this.onQueryTextChange("")
+            }
             else
                 this.onQueryTextChange(filterGlobal)
         })

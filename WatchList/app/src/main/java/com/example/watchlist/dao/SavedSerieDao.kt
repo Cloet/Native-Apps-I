@@ -17,6 +17,9 @@ interface SavedSerieDao {
     @Delete
     fun delete(savedSerie: SavedSerie)
 
+    @Query("UPDATE Savedserie_table set rating = :rating where savedSerieId = :savedSerieId")
+    fun updateRatingSerie(savedSerieId: String, rating: Float)
+
     @Query("DELETE FROM Savedserie_table")
     fun deleteAllSavedSeries()
 
@@ -25,5 +28,11 @@ interface SavedSerieDao {
 
     @Query("SELECT COUNT(*) from savedserie_table where savedSerieId = :savedSerieId")
     fun checkIfSerieExistsInDatabase(savedSerieId: String): Int
+
+    @Query("Select * from savedserie_table where status = 'Continuing'")
+    fun getAllContinuingSeries(): LiveData<List<SavedSerie>>
+
+    @Query("Select COUNT(*) from savedserie_table")
+    fun getTotalAmountOfSeriesSaved(): LiveData<Int>
 
 }

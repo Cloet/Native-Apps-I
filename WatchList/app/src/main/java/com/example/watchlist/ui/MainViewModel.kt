@@ -28,6 +28,13 @@ class MainViewModel : ViewModel() {
     @Inject
     lateinit var savedSerieRepository: SavedSerieRepository
 
+    private val _retrieving = MutableLiveData<Boolean>()
+    val retrieving: LiveData<Boolean>
+        get() = _retrieving
+
+    val totalSeries: LiveData<Int>
+        get() = savedSerieRepository.getTotalAmountSavedSeries()
+
     val prefs : Preferences
 
     init {
@@ -44,6 +51,13 @@ class MainViewModel : ViewModel() {
                 { result -> onRetrieveTokenSucces(result) },
                 { error -> onRetrieveTokenError(error) }
             )
+    }
+
+    fun getAllContinuingSeries(): LiveData<List<SavedSerie>> {
+        this._retrieving.value = true
+        val series = savedSerieRepository.getAllContinuingSeries()
+        this._retrieving.value = false
+        return series
     }
 
     private fun onRetrieveTokenError(error: Throwable) {

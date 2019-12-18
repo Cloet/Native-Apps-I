@@ -77,26 +77,42 @@
             android:layout_weight="1"
             tools:text="@tools:sample/lorem[4:10]" />
 
-        <androidx.appcompat.widget.AppCompatButton
+        <RatingBar
+            android:id="@+id/serie_rating_bar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Details"
+            android:isIndicator="true"
+            android:layout_marginBottom="16dp"
+            android:layout_marginLeft="16dp"
+            style="?android:attr/ratingBarStyleSmall"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@id/serie_banner"
-            android:onClick="@{()-> clickListener.onClick(serie)}">
+            app:serie_rating="@{serie}"
+            android:saveEnabled="true"
+            android:numStars="5">
+        </RatingBar>
 
-        </androidx.appcompat.widget.AppCompatButton>
-
-        <androidx.appcompat.widget.AppCompatButton
+        <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Delete"
+            android:src="@drawable/ic_delete_48dp"
+            app:layout_constraintEnd_toStartOf="@id/info_playlist_item"
+            app:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginRight="6dp"
+            android:onClick="@{()-> removeListener.onClick(serie)}"
+            />
+
+        <ImageView
+            android:id="@+id/info_playlist_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_info_white_48dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@id/serie_banner"
-            android:onClick="@{()-> removeListener.onClick(serie)}">
+            android:layout_marginRight="6dp"
+            android:onClick="@{()-> clickListener.onClick(serie)}"
+            />
 
-        </androidx.appcompat.widget.AppCompatButton>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

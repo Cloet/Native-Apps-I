@@ -2,36 +2,31 @@
 <navigation
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/mainFragment">
 
     <fragment
-        android:id="@+id/mainFragment"
-        android:name="com.example.watchlist.fragments.MainFragment"
-        android:label="MainFragment" >
-        <action
-            android:id="@+id/action_mainFragment_to_addSerieListFragment"
-            app:destination="@id/addSerieListFragment" />
-        <action
-            android:id="@+id/action_mainFragment_to_serieListFragment"
-            app:destination="@+id/serieListFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/serieDetailFragment"
         android:name="com.example.watchlist.fragments.SerieDetailFragment"
-        android:label="SerieDetailFragment" >
+        android:label="Serie Detail" >
         <argument
             android:name="serie"
             app:argType="com.example.watchlist.model.SavedSerie" />
         <action
             android:id="@+id/action_serieDetailFragment_to_addSerieListFragment"
-            app:destination="@id/addSerieListFragment"
-            app:popUpTo="@+id/serieDetailFragment" />
+            app:destination="@id/addSerieListFragment" />
+        <action
+            android:id="@+id/action_serieDetailFragment_to_serieListFragment2"
+            app:destination="@id/serieListFragment" />
+        <action
+            android:id="@+id/action_serieDetailFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
     </fragment>
     <fragment
         android:id="@+id/addSerieListFragment"
         android:name="com.example.watchlist.fragments.AddSerieListFragment"
-        android:label="AddSerieListFragment" >
+        android:label="Series">
         <action
             android:id="@+id/action_addSerieListFragment_to_serieDetailFragment"
             app:destination="@id/serieDetailFragment" />
@@ -39,9 +34,17 @@
     <fragment
         android:id="@+id/serieListFragment"
         android:name="com.example.watchlist.fragments.SerieListFragment"
-        android:label="SerieListFragment" >
+        android:label="My Series">
         <action
             android:id="@+id/action_serieListFragment_to_serieDetailFragment"
+            app:destination="@id/serieDetailFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.watchlist.fragments.MainFragment"
+        android:label="WatchList" >
+        <action
+            android:id="@+id/action_mainFragment_to_serieDetailFragment"
             app:destination="@id/serieDetailFragment" />
     </fragment>
 </navigation>

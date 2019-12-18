@@ -53,11 +53,7 @@ class AddSerieListFragment: Fragment(), SearchView.OnQueryTextListener {
             serie?.let {
                 Toast.makeText(context,serie.name + " has been added to your watchlist!",Toast.LENGTH_SHORT).show()
                 addSerieViewModel.insertSerie(serie)
-
-                val addBtn: ImageView = view!!.findViewById(R.id.add_to_playlist)
-                val addedBtn : ImageView = view!!.findViewById(R.id.added_to_playlist)
-                addBtn.visibility = View.GONE
-                addedBtn.visibility = View.VISIBLE
+                adapter.notifyDataSetChanged()
             }
 
         })
@@ -83,7 +79,7 @@ class AddSerieListFragment: Fragment(), SearchView.OnQueryTextListener {
         })
 
         binding.addSerieRecyclerView.adapter = adapter
-        binding.addSerieRecyclerView.layoutManager = LinearLayoutManager(activity)
+        binding.addSerieRecyclerView.layoutManager = LinearLayoutManager(activity!!)
 
         setHasOptionsMenu(true)
         return binding.root
@@ -91,6 +87,11 @@ class AddSerieListFragment: Fragment(), SearchView.OnQueryTextListener {
 
     fun isSeriesInWatchList(serie: SavedSerie): Boolean {
         return addSerieViewModel.savedSeriesRepository.checkIfSeriesExists(serie)
+    }
+
+    fun getSeriesRating(serie: SavedSerie) : Float {
+        val retSerie = addSerieViewModel.savedSeriesRepository.getSerieWithId(serie)
+        return retSerie!!.rating
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {

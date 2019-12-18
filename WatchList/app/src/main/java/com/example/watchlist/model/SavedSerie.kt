@@ -20,7 +20,7 @@ data class SavedSerie(
     @field:Json(name="banner") @ColumnInfo(name = "banner_location") val banner_location: String? = "",
     @ColumnInfo(name = "network") val network: String? = "",
     @field:Json(name="firstAired") @ColumnInfo(name = "firstAired") val firstAired: String? = "",
-    @ColumnInfo(name="rating") val rating: Float
+    @ColumnInfo(name="rating") var rating: Float
 ) : Parcelable, Serializable {
     constructor(parcel: Parcel): this (
         parcel.readString(),
