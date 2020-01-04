@@ -1,0 +1,28 @@
+[ {
+  "savedSerieId" : "1",
+  "name" : "Serie 1",
+  "overview": "Overview of the series",
+  "slug": "The-Series",
+  "status": "Continuing",
+  "banner_location": "",
+  "network": "HBO+",
+  "firstAired": ""
+}, {
+  "savedSerieId" : "2",
+  "name" : "Serie 2",
+  "overview": "Overview of the series",
+  "slug": "The-Series",
+  "status": "Continuing",
+  "banner_location": "",
+  "network": "HBO+",
+  "firstAired": ""
+}, {
+  "savedSerieId" : "3",
+  "name" : "Serie 3",
+  "overview": "Overview of the series",
+  "slug": "The-Series",
+  "status": "Continuing",
+  "banner_location": "",
+  "network": "HBO+",
+  "firstAired": ""
+}]

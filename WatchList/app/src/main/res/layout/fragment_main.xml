@@ -14,6 +14,7 @@
     </data>
 
     <LinearLayout
+        android:id="@+id/Home_Fragment"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
