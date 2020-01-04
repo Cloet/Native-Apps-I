@@ -20,8 +20,9 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
+
 Dit project is gemaakt in opdracht voor het vak Native Apps I van de richting Toegepaste Informatica aan Hogeschool Gent.
-Het project is een lijst van series die je bekeken hebt of wilt bekijken en de nodige informatie over een serie kan weergeven + een score geven.
+Het project is een lijst van series die je bekeken hebt of wilt bekijken. Ook is er de mogelijkheid om meer informatie per serie op te vragen over welke acteurs er meespelen en al de episodes, ook er is een mogelijkheid om de app een rating te geven vanaf deze is opgeslaan.
 
 ### Built With
 * [Android](https://www.android.com/)
