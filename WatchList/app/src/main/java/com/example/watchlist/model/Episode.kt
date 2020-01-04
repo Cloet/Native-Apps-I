@@ -4,6 +4,20 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
 
+/**
+ * Model class for [Episode]
+ * @constructor Creates an [Episode] class from a [Parcel] object.
+ * @property id the id of the [Episode]
+ * @property season the season of the [Episode]
+ * @property seasonId the id of the season
+ * @property episodeNumber the number of the episode
+ * @property name the name of the [Episode]
+ * @property firstAired first air date of the [Episode]
+ * @property overView small summary of the [Episode]
+ * @property imdbId the id imdb has on this [Episode]
+ * @property contentRating the rating of this [Episode]
+ * @property fileName the filename of the [Episode]
+ * */
 data class Episode(
     @field:Json(name="id") val id : String = "",
     @field:Json(name="airedSeason") val season: String = "",
@@ -39,6 +53,11 @@ data class Episode(
         }
     }
 
+    /**
+     * Writes an [Episode] to a [Parcel] object.
+     * @param parcel [Parcel]
+     * @param flags [Int]
+     * */
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(season)

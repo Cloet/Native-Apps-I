@@ -6,7 +6,9 @@ import com.example.watchlist.injection.component.ViewModelInjectorComponent
 import com.example.watchlist.injection.module.DatabaseModule
 import com.example.watchlist.injection.module.NetworkModule
 
-
+/**
+ * This is the applicationContext used in the application.
+ * */
 class App: Application() {
     companion object {
         lateinit var component: ViewModelInjectorComponent

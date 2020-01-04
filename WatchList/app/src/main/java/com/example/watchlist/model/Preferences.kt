@@ -4,6 +4,9 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.media.session.MediaSession
 
+/**
+ * Class used to store preferences, the token retrieved at the start of the app is stored and retrieved here.
+ * */
 class Preferences (context: Context) {
 
     private val PREFS_FILENAME = "com.example.watchlist.token"

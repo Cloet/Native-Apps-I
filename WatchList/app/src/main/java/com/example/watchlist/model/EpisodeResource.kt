@@ -4,6 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
 
+/**
+ * Class used to handle data retrieved from the Api.
+ * */
 data class EpisodeResource (
     @field:Json(name="data") val episodes : List<Episode>
 ) : Parcelable {
@@ -15,8 +18,13 @@ data class EpisodeResource (
         return 0
     }
 
-    override fun writeToParcel(p0: Parcel?, p1: Int) {
-        p0?.writeTypedList(episodes)
+    /**
+     * Writes data to a [Episode] list
+     * @param parcel [Parcel]
+     * @param flags [Int]
+     * */
+    override fun writeToParcel(parcel: Parcel?, flags: Int) {
+        parcel?.writeTypedList(episodes)
     }
 
     companion  object CREATOR : Parcelable.Creator<EpisodeResource?> {

@@ -1,16 +1,13 @@
 package com.example.watchlist.fragments
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
 import android.widget.SearchView
 import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchlist.R
@@ -20,17 +17,24 @@ import com.example.watchlist.adapters.AddSerieRecyclerViewListener
 import com.example.watchlist.databinding.AddSeriesListBinding
 import com.example.watchlist.model.SavedSerie
 import com.example.watchlist.ui.AddSeriesViewModel
-import kotlinx.android.synthetic.main.add_series_list.*
-import org.jetbrains.anko.bundleOf
-import org.jetbrains.anko.doAsync
-import java.lang.ClassCastException
 
+/**
+ * Series List [Fragment] for showing all [SavedSerie] retrieved from the API
+ * @see Fragment
+ * @see SearchView.OnQueryTextListener
+ * */
 class AddSerieListFragment: Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var addSerieViewModel: AddSeriesViewModel
     private lateinit var adapter: AddSerieRecyclerViewAdapter
     var searchView: SearchView? = null
 
+    /**
+     * Initializes the [AddSerieListFragment].
+     * @param inflater [LayoutInflater]
+     * @param container [ViewGroup]
+     * @param savedInstanceState [Bundle]
+     * */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -85,15 +89,30 @@ class AddSerieListFragment: Fragment(), SearchView.OnQueryTextListener {
         return binding.root
     }
 
+    /**
+     * Checks if a [SavedSerie] exists in the room database.
+     * @param serie [SavedSerie]
+     * @return [Boolean]
+     * */
     fun isSeriesInWatchList(serie: SavedSerie): Boolean {
         return addSerieViewModel.savedSeriesRepository.checkIfSeriesExists(serie)
     }
 
+    /**
+     * Gets the rating of a [SavedSerie]. This is used when a series is shown from the API but is already in the database.
+     * @param serie [SavedSerie]
+     * @return [Float]
+     * */
     fun getSeriesRating(serie: SavedSerie) : Float {
         val retSerie = addSerieViewModel.savedSeriesRepository.getSerieWithId(serie)
         return retSerie!!.rating
     }
 
+    /**
+     * Inflates the search action in the menu.
+     * @param menu [Menu]
+     * @param inflater [MenuInflater]
+     * */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater!!.inflate(R.menu.search_action, menu)
 
@@ -106,11 +125,21 @@ class AddSerieListFragment: Fragment(), SearchView.OnQueryTextListener {
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onQueryTextSubmit(p0: String?): Boolean {
-        addSerieViewModel.RetrieveSeries(p0)
+    /**
+     * Called when the user submits in search menu item.
+     * @param filterValue: [String]
+     * @return [Boolean]
+     * */
+    override fun onQueryTextSubmit(filterValue: String?): Boolean {
+        addSerieViewModel.RetrieveSeries(filterValue)
         return true
     }
 
+    /**
+     * Called every time a character is changed in the search menu item.
+     * @param filter: [String]
+     * @return [Boolean]
+     * */
     override fun onQueryTextChange(filter: String?): Boolean {
         return false
     }

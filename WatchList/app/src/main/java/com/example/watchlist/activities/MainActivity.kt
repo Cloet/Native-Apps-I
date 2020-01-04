@@ -2,9 +2,6 @@ package com.example.watchlist.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import android.view.View
-import androidx.core.view.get
 import androidx.databinding.DataBindingUtil
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -12,18 +9,22 @@ import androidx.navigation.ui.NavigationUI
 import androidx.navigation.ui.setupWithNavController
 import com.example.watchlist.R
 import com.example.watchlist.databinding.ActivityMainBinding
-import com.google.android.material.bottomnavigation.BottomNavigationMenu
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
+/**
+ * Main Activity extends AppCompatActivity
+ * */
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNav : BottomNavigationView
 
+    /**
+     * Creates the Main Activity.
+     * Initialize binding, navController and set up the bottom navigation bar for MainActivity.
+     * @param savedInstanceState [Bundle]
+     * */
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        //setSupportActionBar(findViewById(R.id.toolbar))
-        //supportActionBar?.setDisplayShowTitleEnabled(false)
 
         val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
         bottomNav = findViewById(R.id.bottom_navigation)
@@ -51,8 +52,6 @@ class MainActivity : AppCompatActivity() {
                 else -> false
             }
         }
-
-
     }
 
     /**

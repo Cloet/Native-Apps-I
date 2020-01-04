@@ -4,19 +4,26 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
 
+/**
+ * Class used to handle data retrieved from the Api.
+ * */
 data class ActorResource (
     @field:Json(name="data") val actors : List<Actor>
 ) : Parcelable {
     constructor(parcel: Parcel) : this(parcel.createTypedArrayList(Actor)) {
-
     }
 
     override fun describeContents(): Int {
         return 0
     }
 
-    override fun writeToParcel(p0: Parcel?, p1: Int) {
-        p0?.writeTypedList(actors)
+    /**
+     * Writes data to [Actor] list.
+     * @param parcel [Parcel]
+     * @param p1 [Int]
+     * */
+    override fun writeToParcel(parcel: Parcel?, p1: Int) {
+        parcel?.writeTypedList(actors)
     }
 
     companion  object CREATOR : Parcelable.Creator<ActorResource?> {

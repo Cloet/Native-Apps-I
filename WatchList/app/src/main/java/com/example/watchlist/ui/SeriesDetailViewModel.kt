@@ -12,6 +12,9 @@ import javax.inject.Inject
 
 class SeriesDetailViewModel: ViewModel() {
 
+    /**
+     * Properties
+     * */
     @Inject
     lateinit var savedSerieRepository: SavedSerieRepository
 
@@ -19,15 +22,27 @@ class SeriesDetailViewModel: ViewModel() {
     val fromApi: LiveData<Boolean>
         get() = _fromApi
 
+    /**
+     * Constructor
+     * Dependency injection.
+     * */
     init {
         App.component.inject(this)
         _fromApi.value = false
     }
 
+    /**
+     * Changes [fromApi] to given [value]
+     * @param value [Boolean]
+     * */
     fun setFromApi(value: Boolean) {
         _fromApi.postValue(value)
     }
 
+    /**
+     * Update [SavedSerie] rating in database.
+     * @param serie [SavedSerie]
+     * */
     fun updateSerieRating(serie: SavedSerie) {
         doAsync {
             savedSerieRepository.updateSavedSerieRating(serie)

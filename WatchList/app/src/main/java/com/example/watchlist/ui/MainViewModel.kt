@@ -20,6 +20,9 @@ import javax.inject.Inject
 
 class MainViewModel : ViewModel() {
 
+    /**
+     * Properties
+     * */
     @Inject
     lateinit var tvDbApi: TVDBApi
 
@@ -37,6 +40,11 @@ class MainViewModel : ViewModel() {
 
     val prefs : Preferences
 
+    /**
+     * Constructor.
+     * Dagger dependency injection.
+     * Retrieves a login token from API and stores it in the preferences.
+     * */
     init {
         App.component.inject(this)
 
@@ -53,6 +61,9 @@ class MainViewModel : ViewModel() {
             )
     }
 
+    /**
+     * Get All [SavedSerie] that are not yet finished from database
+     * */
     fun getAllContinuingSeries(): LiveData<List<SavedSerie>> {
         this._retrieving.value = true
         val series = savedSerieRepository.getAllContinuingSeries()

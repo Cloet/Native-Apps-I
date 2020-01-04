@@ -18,6 +18,9 @@ import javax.inject.Inject
 
 class AddSeriesViewModel: ViewModel() {
 
+    /**
+     * Properties
+     * */
     @Inject
     lateinit var tvDbApi: TVDBApi
 
@@ -32,10 +35,18 @@ class AddSeriesViewModel: ViewModel() {
     val retrieving: LiveData<Boolean>
         get() = _retrieving
 
+    /**
+     * Constructor.
+     * Dagger dependency injection.
+     * */
     init {
         App.component.inject(this)
     }
 
+    /**
+     * Retrieves all [SavedSerie] with a given [name] from [tvDbApi]
+     * @param name of a [SavedSerie]
+     * */
     fun RetrieveSeries(name: String?) {
         this._retrieving.value = true
 
@@ -63,6 +74,10 @@ class AddSeriesViewModel: ViewModel() {
         foundSeriesObject.value = result.series
     }
 
+    /**
+     * Insert a [SavedSerie] into the room database.
+     * @param serie [SavedSerie]
+     * */
     fun insertSerie(serie: SavedSerie) {
         doAsync {
             savedSeriesRepository.insert(serie)

@@ -1,23 +1,22 @@
 package com.example.watchlist.fragments
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
-import androidx.activity.addCallback
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchlist.R
 import com.example.watchlist.adapters.ActorAdapter
 import com.example.watchlist.adapters.EpisodeAdapter
+import com.example.watchlist.adapters.SerieDiffCallback
 import com.example.watchlist.databinding.SeriesDetailBinding
 import com.example.watchlist.model.Actor
 import com.example.watchlist.model.Episode
@@ -28,6 +27,10 @@ import kotlinx.android.synthetic.main.actor_list.*
 import kotlinx.android.synthetic.main.episodes_list.*
 import org.jetbrains.anko.doAsync
 
+/**
+ * Detail view for a selected [SavedSerie].
+ * @see Fragment
+ * */
 class SerieDetailFragment: Fragment()  {
 
     private lateinit var episodeViewModel: EpisodeViewModel
@@ -39,6 +42,12 @@ class SerieDetailFragment: Fragment()  {
 
     val args : SerieDetailFragmentArgs by navArgs()
 
+    /**
+     * Initializes the [MainFragment].
+     * @param inflater [LayoutInflater]
+     * @param container [ViewGroup]
+     * @param savedInstanceState [Bundle]
+     * */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -119,7 +128,11 @@ class SerieDetailFragment: Fragment()  {
         return detailFragment.root
     }
 
-
+    /**
+     * Called after the [Fragment] is created.
+     * Creates the [episodeAdapter] and [actorAdapter] and retrieves all [Episode] and [Actor] objects for the selected [SavedSerie].
+     * @param savedInstanceState [Bundle]
+     * */
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -145,6 +158,10 @@ class SerieDetailFragment: Fragment()  {
 
 }
 
+/**
+ * [SerieDetailAddListener] listens when a [SavedSerie] is clicked an retruns the clicked [SavedSerie].
+ * Used to navigate to [SerieDetailFragment]
+ * */
 class SerieDetailAddListener(val clickListener: (serie: SavedSerie) -> Unit) {
     fun onClick(serie: SavedSerie) = clickListener(serie)
 }

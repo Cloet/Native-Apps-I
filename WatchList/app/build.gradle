@@ -38,6 +38,10 @@ android {
     dataBinding {
         enabled = true
     }
+    dokka {
+        outputFormat = 'kotlin-website*'
+        outputDirectory = "$buildDir/dokka"
+    }
 }
 
 dependencies {

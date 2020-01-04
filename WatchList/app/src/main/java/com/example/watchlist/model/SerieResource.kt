@@ -4,6 +4,9 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
 
+/**
+ * Class used to handle data retrieved from the Api.
+ * */
 data class SerieResource (
     @field:Json(name="data") val series : List<SavedSerie>
 ) : Parcelable {

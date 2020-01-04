@@ -12,6 +12,10 @@ import com.example.watchlist.model.SavedSerie
 import com.squareup.picasso.Picasso
 import java.text.SimpleDateFormat
 
+/**
+ * BindingAdapter for a [SavedSerie] overview.
+ * @param item [SavedSerie]
+ * */
 @BindingAdapter("serie_overview")
 fun TextView.setOverview(item: SavedSerie?) {
     item?.let {
@@ -19,6 +23,10 @@ fun TextView.setOverview(item: SavedSerie?) {
     }
 }
 
+/**
+ * BindingAdapter for the [SavedSerie] name.
+ * @param item [SavedSerie]
+ * */
 @RequiresApi(Build.VERSION_CODES.O)
 @BindingAdapter("serie_name")
 fun TextView.setName(item: SavedSerie?) {
@@ -27,6 +35,11 @@ fun TextView.setName(item: SavedSerie?) {
     }
 }
 
+/**
+ * BindingAdapter that shows the banner of a [SavedSerie]
+ * Downloads and loads a resized version of the series banner from API
+ * @param item [SavedSerie]
+ * */
 @BindingAdapter("serie_banner")
 fun ImageView.setImageResource(item: SavedSerie) {
     item?.let {
@@ -34,6 +47,11 @@ fun ImageView.setImageResource(item: SavedSerie) {
     }
 }
 
+/**
+ * BindingAdapter that shows the rating of a [SavedSerie]
+ * @param view [RatingBar]
+ * @param item [SavedSerie]
+ * */
 @BindingAdapter("serie_rating")
 fun setRating(view: RatingBar, item: SavedSerie) {
     item?.let {

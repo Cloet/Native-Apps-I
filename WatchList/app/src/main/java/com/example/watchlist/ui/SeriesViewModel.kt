@@ -13,7 +13,9 @@ import javax.inject.Inject
 
 class SeriesViewModel : ViewModel() {
 
-
+    /**
+     * Properties
+     * */
     @Inject
     lateinit var savedSerieRepository: SavedSerieRepository
 
@@ -22,10 +24,17 @@ class SeriesViewModel : ViewModel() {
         get() = _retrieving
 
 
+    /**
+     * Constructor.
+     * Dagger dependency injection.
+     */
     init {
         App.component.inject(this)
     }
 
+    /**
+     * Gets all [SavedSerie] from room database
+     * */
     fun getAllSeries(): LiveData<List<SavedSerie>> {
         this._retrieving.value = true
         val series = savedSerieRepository.getAllSavedSeries()
@@ -33,12 +42,20 @@ class SeriesViewModel : ViewModel() {
         return series
     }
 
+    /**
+     * Insert a [SavedSerie] into the room database
+     * @param savedSerie [SavedSerie]
+     * */
     fun insertSerie(savedSerie: SavedSerie) {
         doAsync {
             savedSerieRepository.insert(savedSerie)
         }
     }
 
+    /**
+     * Delete a [SavedSerie] from the room database
+     * @param savedSerie [SavedSerie]
+     * */
     fun deleteSerie(savedSerie: SavedSerie) {
         doAsync {
             savedSerieRepository.delete(savedSerie)

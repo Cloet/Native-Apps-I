@@ -4,12 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.watchlist.R
@@ -17,13 +15,22 @@ import com.example.watchlist.adapters.*
 import com.example.watchlist.databinding.FragmentMainBinding
 import com.example.watchlist.model.SavedSerie
 import com.example.watchlist.ui.MainViewModel
-import com.google.android.material.bottomnavigation.BottomNavigationView
 
+/**
+ * Main [Fragment] for showing all continuing [SavedSerie] objects and total [SavedSerie] saved in database.
+ * @see Fragment
+ * */
 class MainFragment: Fragment() {
 
     private lateinit var mainViewModel: MainViewModel
     private lateinit var adapter: SerieContinuingAdapter
 
+    /**
+     * Initializes the [MainFragment].
+     * @param inflater [LayoutInflater]
+     * @param container [ViewGroup]
+     * @param savedInstanceState [Bundle]
+     * */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

@@ -16,12 +16,19 @@ import javax.inject.Singleton
 @Module
 class NetworkModule {
 
+    /**
+     * Provides the api.
+     * @param retrofit the retrofit object used to instantiate the service.
+     * */
     @Provides
     @Singleton
     internal fun provideTVDBApi(retrofit: Retrofit): TVDBApi {
         return retrofit.create(TVDBApi::class.java)
     }
 
+    /**
+     * Creates a retrofit instance.
+     * @return [Retrofit]*/
     @Provides
     @Singleton
     internal fun provideRetrofitInterface(): Retrofit {

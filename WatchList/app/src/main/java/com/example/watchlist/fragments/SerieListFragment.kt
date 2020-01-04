@@ -18,9 +18,12 @@ import com.example.watchlist.adapters.SerieRecyclerViewListener
 import com.example.watchlist.databinding.SeriesListBinding
 import com.example.watchlist.model.SavedSerie
 import com.example.watchlist.ui.SeriesViewModel
-import kotlinx.android.synthetic.main.series_list.*
-import org.jetbrains.anko.doAsync
 
+/**
+ * Series List [Fragment] for showing all [SavedSerie] retrieved from the room database.
+ * @see Fragment
+ * @see SearchView.OnQueryTextListener
+ * */
 class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
 
     private lateinit var serieListViewModel: SeriesViewModel
@@ -28,6 +31,12 @@ class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
     var searchView: SearchView? = null
     var filterGlobal : String? = null
 
+    /**
+     * Initializes the [AddSerieListFragment].
+     * @param inflater [LayoutInflater]
+     * @param container [ViewGroup]
+     * @param savedInstanceState [Bundle]
+     * */
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -103,6 +112,11 @@ class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
         return binding.root
     }
 
+    /**
+     * Inflates the search action in the menu.
+     * @param menu [Menu]
+     * @param inflater [MenuInflater]
+     * */
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater!!.inflate(R.menu.search_action, menu)
 
@@ -115,10 +129,20 @@ class SerieListFragment: Fragment(), SearchView.OnQueryTextListener {
         return super.onCreateOptionsMenu(menu, inflater)
     }
 
-    override fun onQueryTextSubmit(p0: String?): Boolean {
+    /**
+     * Called when the user submits in search menu item.
+     * @param filterValue: [String]
+     * @return [Boolean]
+     * */
+    override fun onQueryTextSubmit(filterValue: String?): Boolean {
         return false
     }
 
+    /**
+     * Called every time a character is changed in the search menu item.
+     * @param filter: [String]
+     * @return [Boolean]
+     * */
     override fun onQueryTextChange(filter: String?): Boolean {
         filterGlobal = filter
         adapter!!.filter.filter(filter)

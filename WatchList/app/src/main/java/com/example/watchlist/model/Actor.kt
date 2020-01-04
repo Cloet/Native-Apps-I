@@ -4,6 +4,16 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.squareup.moshi.Json
 
+/**
+ * Model class for [Actor]
+ * @constructor Creates an [Actor] class from a [Parcel] object
+ * @property id id for [Actor]
+ * @property seriesId id of the linked [SavedSerie]
+ * @property name name of the [Actor]
+ * @property role role of the [Actor]
+ * @property sortOrder of the [Actor]
+ * @property image link to an image of the [Actor]
+ * * */
 data class Actor(
     @field:Json(name="id") val id : String = "",
     @field:Json(name="seriesId") val seriesId: String = "",
@@ -31,6 +41,11 @@ data class Actor(
         }
     }
 
+    /**
+     * Writes an [Actor] object to a [Parcel]
+     * @param parcel [Parcel]
+     * @param flags [Int]
+     * */
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeString(seriesId)

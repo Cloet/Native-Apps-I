@@ -15,6 +15,9 @@ import javax.inject.Inject
 
 class EpisodeViewModel: ViewModel() {
 
+    /**
+     * Properties
+     * */
     @Inject
     lateinit var tvDbApi: TVDBApi
 
@@ -27,10 +30,18 @@ class EpisodeViewModel: ViewModel() {
 
     var foundActorObject = MutableLiveData<List<Actor>>()
 
+    /**
+     * Constructor
+     * Dagger dependency injection.
+     * */
     init {
         App.component.inject(this)
     }
 
+    /**
+     * Retrieve all [Episode] with given [id] from [tvDbApi]
+     * @param id of a [SavedSerie]
+     * */
     fun RetrieveEpisodes(id: String?) {
         val prefs = Preferences(App.application)
 
@@ -49,6 +60,10 @@ class EpisodeViewModel: ViewModel() {
             )
     }
 
+    /**
+     * Retrieve all [Actor] with given [id] from [tvDbApi]
+     * @param id of a [SavedSerie]
+     * */
     fun RetrieveActors(id: String?) {
         val prefs = Preferences(App.application)
 

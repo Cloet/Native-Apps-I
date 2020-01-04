@@ -1,5 +1,8 @@
 package com.example.watchlist.utils
 
+/**
+ * Values used to connect with the API.
+ * */
 const val API_URL:String = "https:/api.thetvdb.com/"
 const val USER_KEY:String = "5DD800364F1AE4.34221610"
 const val USER_NAME:String = "mathiascloet"
